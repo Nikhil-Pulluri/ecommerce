@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Product } from '@prisma/client';
 import { Prisma } from '@prisma/client';
-import { query } from 'express';
+
 
 @Injectable()
 export class ProductService {
@@ -50,6 +50,17 @@ export class ProductService {
       }
     })
    }
+
+   async searchCat(
+    cat : string
+   ) : Promise<Product[]> {
+    return this.prisma.product.findMany({
+      where : {
+        cat : cat
+      }
+    })  
+   }
+   
 
   async deleteProduct(
     id : string

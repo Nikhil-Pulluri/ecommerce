@@ -40,6 +40,15 @@ export class ProductController {
     return this.productService.searchFilter(data);
   }
 
+  @Public()
+  @Post('search-cat')
+  async searchCat(
+    @Body() data : {query : string}
+  ) : Promise<Product[]> {
+    return this.productService.searchCat(data.query);
+  }
+  
+
 
   @Public()
   @Delete('delete-product')

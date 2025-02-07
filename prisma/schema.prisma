@@ -15,6 +15,7 @@ model User {
   role     String
   products Product[]
   orders   Order[]
+  cart     Cart?
 }
 
 model Product {
@@ -25,8 +26,25 @@ model Product {
   user          User?          @relation(fields: [userId], references: [id])
   owner         String
   desc          String         @default("no description given")
-  cat           String?        @default("no category alloted")
+  cat           String?        @default("no category allotted")
   orderProducts OrderProduct[]
+  cartProducts  CartProduct[]
+}
+
+model Cart {
+  id        String        @id @default(cuid()) @map("_id")
+  userId    String        @unique
+  user      User          @relation(fields: [userId], references: [id])
+  cartItems CartProduct[]
+}
+
+model CartProduct {
+  id        String  @id @default(cuid()) @map("_id")
+  cartId    String
+  productId String
+  quantity  Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model Order {
