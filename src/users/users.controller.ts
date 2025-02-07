@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Post, Delete, Put } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User, Prisma } from '@prisma/client';
 import { Public } from 'src/decorators/public.decorator';
@@ -24,15 +24,15 @@ export class UsersController {
     return this.userService.createUser(data);
   }
 
-  @Public() // need to be removed as update requires authentication
-  @Post("update-user")
+
+  @Put("update-user")
   async updateUser(
     @Body() params : {where : Prisma.UserWhereUniqueInput, data : Prisma.UserUpdateInput}
   ) : Promise<User>{
     return this.userService.updateUser(params);
   }
 
-  @Public() // need to be removed as update requires authentication
+
   @Delete('delete-user')
   async deleteUser(
     @Body() data : {email : string}

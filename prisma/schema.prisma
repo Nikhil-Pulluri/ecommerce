@@ -24,6 +24,8 @@ model Product {
   userId        String?
   user          User?          @relation(fields: [userId], references: [id])
   owner         String
+  desc          String         @default("no description given")
+  cat           String?        @default("no category alloted")
   orderProducts OrderProduct[]
 }
 
