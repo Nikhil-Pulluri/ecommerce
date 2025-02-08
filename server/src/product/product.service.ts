@@ -12,6 +12,12 @@ export class ProductService {
     return await this.prisma.product.create({data});
   }
 
+  async getProductById(
+    id : string
+  ) : Promise<Product> {
+    return await this.prisma.product.findUnique({where : {id : id}});
+  }
+
   async listProduct(
     id : string
   ) : Promise<Product[]> {

@@ -2,10 +2,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User, Prisma } from '@prisma/client';
+import { CartService } from 'src/cart/cart.service';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService,
+    private cartService : CartService) {}
 
 
   async user(
@@ -46,9 +48,23 @@ export class UserService {
       return user;
     }
 
-    return this.prisma.user.create({
+    // return this.prisma.user.create({
+    //   data,
+    // });
+
+    const newUser = await this.prisma.user.create({
       data,
-    });
+    })
+
+    const {id} = newUser;
+
+    const cartStatus = await this.cartService.createCart({userId : id});
+
+
+    if(cartStatus) {
+      return newUser;
+    }
+    
   }
 
   async updateUser(params: {
