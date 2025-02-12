@@ -79,6 +79,44 @@ export class CartService {
     return total;
   }
 
+  async StartPlacingOrder(
+    data : {
+      userId : string,
+    }) : Promise<{message : string}> {
+      const order = await this.prisma.order.create({
+        data,
+      });
+
+      try{
+        if(order) {
+          return {message : "Order placed successfully"};
+        }
+      }
+      catch (error) {
+        return {message : "Order not placed"};
+      }
+
+    }
+
+  async removeItemFromCart( // change this later - not implemented yet
+    cartProductId : string
+  ) : Promise<{massage : string}> {
+    const response = await this.prisma.cartProduct.delete({
+      where : {
+        id : cartProductId
+      }
+    })
+
+    try { 
+      if(response) {  
+        return {massage : "Item removed successfully"}; 
+      }
+    }
+    catch (error) {
+      return {massage : "Item not found"}
+    } 
+  }
+
 
   async clearCart(
     cartId : string
