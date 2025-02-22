@@ -19,8 +19,9 @@ export class UsersController {
   @Public()
   @Post("create-user")
   async createUser(
-    @Body() data : {email : string, name : string, password : string, role : string}
+    @Body() data : {name : string, email : string, password : string, role : string}
   ) : Promise<User> {
+    console.log('create user called')
     return this.userService.createUser(data);
   }
 

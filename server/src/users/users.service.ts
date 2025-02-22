@@ -36,36 +36,30 @@ export class UserService {
   }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
+    const { email } = data;
 
+    if (!email) {
+      throw new Error('Email is required to create a user.');
+    }
+  
     const user = await this.prisma.user.findUnique({
-      where : {
-        email : data.email
-      }
-    })
-
-    if(user)
-    {
-      return user;
+      where: { email },
+    });
+  
+    if (user) return user; 
+  
+   
+    const newUser = await this.prisma.user.create({ data });
+  
+    try {
+      await this.cartService.createCart({ userId: newUser.id });
+    } catch (error) {
+      console.error('Error creating cart:', error);
     }
-
-    // return this.prisma.user.create({
-    //   data,
-    // });
-
-    const newUser = await this.prisma.user.create({
-      data,
-    })
-
-    const {id} = newUser;
-
-    const cartStatus = await this.cartService.createCart({userId : id});
-
-
-    if(cartStatus) {
-      return newUser;
-    }
-    
+  
+    return newUser; 
   }
+  
 
   async updateUser(params: {
     where: Prisma.UserWhereUniqueInput;
