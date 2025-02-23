@@ -13,6 +13,7 @@ export class AuthController {
   signIn(
     @Body() signInDto: { email: string; password: string },
   ){
+    console.log("login route called")
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 

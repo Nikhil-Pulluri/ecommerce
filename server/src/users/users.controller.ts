@@ -25,7 +25,7 @@ export class UsersController {
     return this.userService.createUser(data);
   }
 
-
+  
   @Put("update-user")
   async updateUser(
     @Body() params : {where : Prisma.UserWhereUniqueInput, data : Prisma.UserUpdateInput}
