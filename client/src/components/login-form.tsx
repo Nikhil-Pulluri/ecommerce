@@ -54,7 +54,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
       try {
         await handleSignIn(email, password)
         console.log('Sign in completed')
-        console.log('Token:', token)
+        // console.log('Token:', token)
       } catch (error) {
         console.error('Submit error:', error)
       } finally {
