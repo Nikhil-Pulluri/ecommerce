@@ -120,7 +120,7 @@ export class CartService {
 
   async clearCart(
     cartId : string
-  ) : Promise<{massage : string}> {
+  ) : Promise<{message : string}> {
     const clearTheCart = await this.prisma.cartProduct.deleteMany({
       where : {
         cartId : cartId
@@ -129,11 +129,11 @@ export class CartService {
 
     try {
       if(clearTheCart) {
-        return {massage : "Cart cleared successfully"};
+        return {message : "Cart cleared successfully"};
       }
     }
     catch (error) {
-      return {massage : "Cart not found"};
+      return {message : "Cart not found"};
     }
   }
 
